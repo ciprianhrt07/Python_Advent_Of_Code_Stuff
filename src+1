@@ -1,0 +1,69 @@
+def readFromFile():
+    f = open(r"test.txt")
+    
+    dict ={}
+
+    remainedTime=[]
+    distances=[]
+    delayTime=[]
+
+    points = []
+
+    key = 0
+
+    for each in f:
+        linie = each
+        if linie[len(linie)=='\n']:
+            linie = linie[0:len(linie)-1]
+        
+        lista = linie.split(" ")
+        
+        viteza = (int)(lista[3])
+        timp = (int)(lista[6])
+        rest = (int)(lista[len(lista)-2])
+
+        dict[key] = (viteza , timp , rest)
+        key+=1
+
+        remainedTime.append(timp)
+        distances.append(0)
+        delayTime.append(0)
+        points.append(0)
+    
+    
+
+    for sec in range(1,2504):
+        
+        for j in range(0,9):
+            viteza,timp,rest = dict.get(j)
+
+            if remainedTime[j] > 0:
+                
+                remainedTime[j] -= 1
+                distances[j]+=viteza
+
+                maxim = max(distances)
+
+                for t in range(0,9):
+                    if distances[t] == maxim:
+                        points[t]+=1 
+                
+
+                if remainedTime[j] == 0 : 
+                    delayTime[j] = rest
+            else:
+                delayTime[j]-=1
+
+                if delayTime[j] == 0:
+                    remainedTime[j] = timp
+             
+    
+    print(max(distances))
+    print(distances)
+    print(points)
+
+
+
+
+readFromFile()
+#print((int)("123"))
